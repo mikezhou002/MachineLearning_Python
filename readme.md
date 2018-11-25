@@ -70,8 +70,8 @@
 		* [6、单元和多元高斯分布特点](#6单元和多元高斯分布特点)
 		* [7、程序运行结果](#7程序运行结果)
 
-## 一、[线性回归](/LinearRegression)
-- [全部代码](/LinearRegression/LinearRegression.py)
+## 一、[线性回归](LinearRegression)
+- [全部代码](LinearRegression/LinearRegression.py)
 
 ### 1、代价函数
 - ![J(\theta ) = \frac{1}{{2{\text{m}}}}\sum\limits_{i = 1}^m {{{({h_\theta }({x^{(i)}}) - {y^{(i)}})}^2}} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%5Ctheta%20%29%20%3D%20%5Cfrac%7B1%7D%7B%7B2%7B%5Ctext%7Bm%7D%7D%7D%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%7B%7B%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20-%20%7By%5E%7B%28i%29%7D%7D%29%7D%5E2%7D%7D%20)
@@ -88,16 +88,16 @@
 def computerCost(X,y,theta):
     m = len(y)
     J = 0
-    
+
     J = (np.transpose(X*theta-y))*(X*theta-y)/(2*m) #计算代价J
     return J
 ```
  - 注意这里的X是真实数据前加了一列1，因为有theta(0)
 
 ### 2、梯度下降算法
-- 代价函数对![{{\theta _j}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%7B%5Ctheta%20_j%7D%7D)求偏导得到：   
+- 代价函数对![{{\theta _j}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%7B%5Ctheta%20_j%7D%7D)求偏导得到：
 ![\frac{{\partial J(\theta )}}{{\partial {\theta _j}}} = \frac{1}{m}\sum\limits_{i = 1}^m {[({h_\theta }({x^{(i)}}) - {y^{(i)}})x_j^{(i)}]} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Cfrac%7B%7B%5Cpartial%20J%28%5Ctheta%20%29%7D%7D%7B%7B%5Cpartial%20%7B%5Ctheta%20_j%7D%7D%7D%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20-%20%7By%5E%7B%28i%29%7D%7D%29x_j%5E%7B%28i%29%7D%5D%7D%20)
-- 所以对theta的更新可以写为：   
+- 所以对theta的更新可以写为：
 ![{\theta _j} = {\theta _j} - \alpha \frac{1}{m}\sum\limits_{i = 1}^m {[({h_\theta }({x^{(i)}}) - {y^{(i)}})x_j^{(i)}]} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Ctheta%20_j%7D%20%3D%20%7B%5Ctheta%20_j%7D%20-%20%5Calpha%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20-%20%7By%5E%7B%28i%29%7D%7D%29x_j%5E%7B%28i%29%7D%5D%7D%20)
 - 其中![\alpha ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Calpha%20)为学习速率，控制梯度下降的速度，一般取**0.01,0.03,0.1,0.3.....**
 - 为什么梯度下降可以逐步减小代价函数
@@ -111,21 +111,21 @@ def computerCost(X,y,theta):
 ```
 # 梯度下降算法
 def gradientDescent(X,y,theta,alpha,num_iters):
-    m = len(y)      
+    m = len(y)
     n = len(theta)
-    
+
     temp = np.matrix(np.zeros((n,num_iters)))   # 暂存每次迭代计算的theta，转化为矩阵形式
-    
-    
+
+
     J_history = np.zeros((num_iters,1)) #记录每次迭代计算的代价值
-    
-    for i in range(num_iters):  # 遍历迭代次数    
+
+    for i in range(num_iters):  # 遍历迭代次数
         h = np.dot(X,theta)     # 计算内积，matrix可以直接乘
         temp[:,i] = theta - ((alpha/m)*(np.dot(np.transpose(X),h-y)))   #梯度的计算
         theta = temp[:,i]
         J_history[i] = computerCost(X,y,theta)      #调用计算代价函数
-        print '.',      
-    return theta,J_history  
+        print '.',
+    return theta,J_history
 ```
 
 ### 3、均值归一化
@@ -139,20 +139,20 @@ def gradientDescent(X,y,theta,alpha,num_iters):
 def featureNormaliza(X):
     X_norm = np.array(X)            #将X转化为numpy数组对象，才可以进行矩阵的运算
     #定义所需变量
-    mu = np.zeros((1,X.shape[1]))   
+    mu = np.zeros((1,X.shape[1]))
     sigma = np.zeros((1,X.shape[1]))
-    
+
     mu = np.mean(X_norm,0)          # 求每一列的平均值（0指定为列，1代表行）
     sigma = np.std(X_norm,0)        # 求每一列的标准差
     for i in range(X.shape[1]):     # 遍历列
         X_norm[:,i] = (X_norm[:,i]-mu[i])/sigma[i]  # 归一化
-    
+
     return X_norm,mu,sigma
 ```
 - 注意预测的时候也需要均值归一化数据
 
 ### 4、最终运行结果
-- 代价随迭代次数的变化   
+- 代价随迭代次数的变化
 ![enter description here][1]
 
 
@@ -165,7 +165,7 @@ from sklearn.preprocessing import StandardScaler    #引入缩放的包
 - 归一化
 ```
     # 归一化操作
-    scaler = StandardScaler()   
+    scaler = StandardScaler()
     scaler.fit(X)
     x_train = scaler.transform(X)
     x_test = scaler.transform(np.array([1650,3]))
@@ -175,7 +175,7 @@ from sklearn.preprocessing import StandardScaler    #引入缩放的包
     # 线性模型拟合
     model = linear_model.LinearRegression()
     model.fit(x_train, y)
-``` 
+```
 - 预测
 ```
     #预测结果
@@ -184,14 +184,14 @@ from sklearn.preprocessing import StandardScaler    #引入缩放的包
 
 -------------------
 
-  
-## 二、[逻辑回归](/LogisticRegression)
-- [全部代码](/LogisticRegression/LogisticRegression.py)
+
+## 二、[逻辑回归](LogisticRegression)
+- [全部代码](LogisticRegression/LogisticRegression.py)
 
 ### 1、代价函数
 - ![\left\{ \begin{gathered}
   J(\theta ) = \frac{1}{m}\sum\limits_{i = 1}^m {\cos t({h_\theta }({x^{(i)}}),{y^{(i)}})}  \hfill \\
-  \cos t({h_\theta }(x),y) = \left\{ {\begin{array}{c}    { - \log ({h_\theta }(x))} \\    { - \log (1 - {h_\theta }(x))}  \end{array} \begin{array}{c}    {y = 1} \\    {y = 0}  \end{array} } \right. \hfill \\ 
+  \cos t({h_\theta }(x),y) = \left\{ {\begin{array}{c}    { - \log ({h_\theta }(x))} \\    { - \log (1 - {h_\theta }(x))}  \end{array} \begin{array}{c}    {y = 1} \\    {y = 0}  \end{array} } \right. \hfill \\
 \end{gathered}  \right.](http://latex.codecogs.com/gif.latex?%5Clarge%20%5Cleft%5C%7B%20%5Cbegin%7Bgathered%7D%20J%28%5Ctheta%20%29%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5Ccos%20t%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%2C%7By%5E%7B%28i%29%7D%7D%29%7D%20%5Chfill%20%5C%5C%20%5Ccos%20t%28%7Bh_%5Ctheta%20%7D%28x%29%2Cy%29%20%3D%20%5Cleft%5C%7B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%7B%20-%20%5Clog%20%28%7Bh_%5Ctheta%20%7D%28x%29%29%7D%20%5C%5C%20%7B%20-%20%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28x%29%29%7D%20%5Cend%7Barray%7D%20%5Cbegin%7Barray%7D%7Bc%7D%20%7By%20%3D%201%7D%20%5C%5C%20%7By%20%3D%200%7D%20%5Cend%7Barray%7D%20%7D%20%5Cright.%20%5Chfill%20%5C%5C%20%5Cend%7Bgathered%7D%20%5Cright.)
 - 可以综合起来为：
 ![J(\theta ) =  - \frac{1}{m}\sum\limits_{i = 1}^m {[{y^{(i)}}\log ({h_\theta }({x^{(i)}}) + (1 - } {y^{(i)}})\log (1 - {h_\theta }({x^{(i)}})]](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%5Ctheta%20%29%20%3D%20%20-%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Clog%20%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7D%20%7By%5E%7B%28i%29%7D%7D%29%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%5D)
@@ -202,12 +202,12 @@ from sklearn.preprocessing import StandardScaler    #引入缩放的包
 ![enter description here][2]
 
 可以看出，当![{{h_\theta }(x)}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%7Bh_%5Ctheta%20%7D%28x%29%7D)趋于`1`，`y=1`,与预测值一致，此时付出的代价`cost`趋于`0`，若![{{h_\theta }(x)}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%7Bh_%5Ctheta%20%7D%28x%29%7D)趋于`0`，`y=1`,此时的代价`cost`值非常大，我们最终的目的是最小化代价值
-- 同理![{ - \log (1 - {h_\theta }(x))}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%20-%20%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28x%29%29%7D)的图像如下（`y=0`）：   
+- 同理![{ - \log (1 - {h_\theta }(x))}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%20-%20%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28x%29%29%7D)的图像如下（`y=0`）：
 ![enter description here][3]
 
 ### 2、梯度
 - 同样对代价函数求偏导：
-![\frac{{\partial J(\theta )}}{{\partial {\theta _j}}} = \frac{1}{m}\sum\limits_{i = 1}^m {[({h_\theta }({x^{(i)}}) - {y^{(i)}})x_j^{(i)}]} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Cfrac%7B%7B%5Cpartial%20J%28%5Ctheta%20%29%7D%7D%7B%7B%5Cpartial%20%7B%5Ctheta%20_j%7D%7D%7D%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20-%20%7By%5E%7B%28i%29%7D%7D%29x_j%5E%7B%28i%29%7D%5D%7D%20)   
+![\frac{{\partial J(\theta )}}{{\partial {\theta _j}}} = \frac{1}{m}\sum\limits_{i = 1}^m {[({h_\theta }({x^{(i)}}) - {y^{(i)}})x_j^{(i)}]} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Cfrac%7B%7B%5Cpartial%20J%28%5Ctheta%20%29%7D%7D%7B%7B%5Cpartial%20%7B%5Ctheta%20_j%7D%7D%7D%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20-%20%7By%5E%7B%28i%29%7D%7D%29x_j%5E%7B%28i%29%7D%5D%7D%20)
 可以看出与线性回归的偏导数一致
 - 推到过程
 ![enter description here][4]
@@ -222,11 +222,11 @@ from sklearn.preprocessing import StandardScaler    #引入缩放的包
 def costFunction(initial_theta,X,y,inital_lambda):
     m = len(y)
     J = 0
-    
+
     h = sigmoid(np.dot(X,initial_theta))    # 计算h(z)
-    theta1 = initial_theta.copy()           # 因为正则化j=1从1开始，不包含0，所以复制一份，前theta(0)值为0 
-    theta1[0] = 0   
-    
+    theta1 = initial_theta.copy()           # 因为正则化j=1从1开始，不包含0，所以复制一份，前theta(0)值为0
+    theta1[0] = 0
+
     temp = np.dot(np.transpose(theta1),theta1)
     J = (-np.dot(np.transpose(y),np.log(h))-np.dot(np.transpose(1-y),np.log(1-h))+temp*inital_lambda/2)/m   # 正则化的代价方程
     return J
@@ -237,22 +237,22 @@ def costFunction(initial_theta,X,y,inital_lambda):
 def gradient(initial_theta,X,y,inital_lambda):
     m = len(y)
     grad = np.zeros((initial_theta.shape[0]))
-    
+
     h = sigmoid(np.dot(X,initial_theta))# 计算h(z)
     theta1 = initial_theta.copy()
     theta1[0] = 0
 
     grad = np.dot(np.transpose(X),h-y)/m+inital_lambda/m*theta1 #正则化的梯度
-    return grad  
+    return grad
 ```
 
 ### 4、S型函数（即![{{h_\theta }(x)}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%7Bh_%5Ctheta%20%7D%28x%29%7D)）
 - 实现代码：
 ```
-# S型函数    
+# S型函数
 def sigmoid(z):
     h = np.zeros((len(z),1))    # 初始化，与z的长度一置
-    
+
     h = 1.0/(1.0+np.exp(-z))
     return h
 ```
@@ -262,14 +262,14 @@ def sigmoid(z):
 - eg:映射为2次方的形式:![1 + {x_1} + {x_2} + x_1^2 + {x_1}{x_2} + x_2^2](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=1%20%2B%20%7Bx_1%7D%20%2B%20%7Bx_2%7D%20%2B%20x_1%5E2%20%2B%20%7Bx_1%7D%7Bx_2%7D%20%2B%20x_2%5E2)
 - 实现代码：
 ```
-# 映射为多项式 
+# 映射为多项式
 def mapFeature(X1,X2):
     degree = 3;                     # 映射的最高次方
     out = np.ones((X1.shape[0],1))  # 映射后的结果数组（取代X）
     '''
     这里以degree=2为例，映射为1,x1,x2,x1^2,x1,x2,x2^2
     '''
-    for i in np.arange(1,degree+1): 
+    for i in np.arange(1,degree+1):
         for j in range(i+1):
             temp = X1**(i-j)*(X2**j)    #矩阵直接乘相当于matlab中的点乘.*
             out = np.hstack((out, temp.reshape(-1,1)))
@@ -282,16 +282,16 @@ def mapFeature(X1,X2):
  - costFunction是自己实现的一个求代价的函数，
  - initial_theta表示初始化的值,
  - fprime指定costFunction的梯度
- - args是其余测参数，以元组的形式传入，最后会将最小化costFunction的theta返回 
+ - args是其余测参数，以元组的形式传入，最后会将最小化costFunction的theta返回
 ```
-    result = optimize.fmin_bfgs(costFunction, initial_theta, fprime=gradient, args=(X,y,initial_lambda))    
-```   
+    result = optimize.fmin_bfgs(costFunction, initial_theta, fprime=gradient, args=(X,y,initial_lambda))
+```
 
 ### 7、运行结果
-- data1决策边界和准确度  
+- data1决策边界和准确度
 ![enter description here][5]
 ![enter description here][6]
-- data2决策边界和准确度  
+- data2决策边界和准确度
 ![enter description here][7]
 ![enter description here][8]
 
@@ -320,13 +320,13 @@ import numpy as np
     #逻辑回归
     model = LogisticRegression()
     model.fit(x_train,y_train)
-``` 
+```
 - 预测
 ```
     # 预测
     predict = model.predict(x_test)
     right = sum(predict == y_test)
-    
+
     predict = np.hstack((predict.reshape(-1,1),y_test.reshape(-1,1)))   # 将预测值和真实值放在一块，好观察
     print predict
     print ('测试集准确率：%f%%'%(right*100.0/predict.shape[0]))          #计算在测试集上的准确度
@@ -360,7 +360,7 @@ def display_data(imgData):
         for j in range(10):
             display_array[pad+i*(20+pad):pad+i*(20+pad)+20,pad+j*(20+pad):pad+j*(20+pad)+20] = (imgData[sum,:].reshape(20,20,order="F"))    # order=F指定以列优先，在matlab中是这样的，python中需要指定，默认以行
             sum += 1
-            
+
     plt.imshow(display_array,cmap='gray')   #显示灰度图像
     plt.axis('off')
     plt.show()
@@ -380,7 +380,7 @@ def display_data(imgData):
 - 然后调用**梯度下降算法**求解`theta`
 - 实现代码：
 ```
-# 求每个分类的theta，最后返回所有的all_theta    
+# 求每个分类的theta，最后返回所有的all_theta
 def oneVsAll(X,y,num_labels,Lambda):
     # 初始化变量
     m,n = X.shape
@@ -388,19 +388,19 @@ def oneVsAll(X,y,num_labels,Lambda):
     X = np.hstack((np.ones((m,1)),X))       # X前补上一列1的偏置bias
     class_y = np.zeros((m,num_labels))      # 数据的y对应0-9，需要映射为0/1的关系
     initial_theta = np.zeros((n+1,1))       # 初始化一个分类的theta
-    
+
     # 映射y
     for i in range(num_labels):
         class_y[:,i] = np.int32(y==i).reshape(1,-1) # 注意reshape(1,-1)才可以赋值
-    
-    #np.savetxt("class_y.csv", class_y[0:600,:], delimiter=',')    
-    
+
+    #np.savetxt("class_y.csv", class_y[0:600,:], delimiter=',')
+
     '''遍历每个分类，计算对应的theta值'''
     for i in range(num_labels):
         result = optimize.fmin_bfgs(costFunction, initial_theta, fprime=gradient, args=(X,class_y[:,i],Lambda)) # 调用梯度下降的优化方法
         all_theta[:,i] = result.reshape(1,-1)   # 放入all_theta中
-        
-    all_theta = np.transpose(all_theta) 
+
+    all_theta = np.transpose(all_theta)
     return all_theta
 ```
 
@@ -414,7 +414,7 @@ def predict_oneVsAll(all_theta,X):
     num_labels = all_theta.shape[0]
     p = np.zeros((m,1))
     X = np.hstack((np.ones((m,1)),X))   #在X最前面加一列1
-    
+
     h = sigmoid(np.dot(X,np.transpose(all_theta)))  #预测
 
     '''
@@ -422,7 +422,7 @@ def predict_oneVsAll(all_theta,X):
     - np.max(h, axis=1)返回h中每一行的最大值（是某个数字的最大概率）
     - 最后where找到的最大概率所在的列号（列号即是对应的数字）
     '''
-    p = np.array(np.where(h[0,:] == np.max(h, axis=1)[0]))  
+    p = np.array(np.where(h[0,:] == np.max(h, axis=1)[0]))
     for i in np.arange(1, m):
         t = np.array(np.where(h[i,:] == np.max(h, axis=1)[i]))
         p = np.vstack((p,t))
@@ -430,7 +430,7 @@ def predict_oneVsAll(all_theta,X):
 ```
 
 ### 5、运行结果
-- 10次分类，在训练集上的准确度：   
+- 10次分类，在训练集上的准确度：
 ![enter description here][13]
 
 ### 6、[使用scikit-learn库中的逻辑回归模型实现](/LogisticRegression/LogisticRegression_OneVsAll_scikit-learn.py)
@@ -443,7 +443,7 @@ from sklearn.linear_model import LogisticRegression
 ```
 - 2、加载数据
 ```
-    data = loadmat_data("data_digits.mat") 
+    data = loadmat_data("data_digits.mat")
     X = data['X']   # 获取X数据，每一行对应一个数字20x20px
     y = data['y']   # 这里读取mat文件y的shape=(5000, 1)
     y = np.ravel(y) # 调用sklearn需要转化成一维的(5000,)
@@ -456,7 +456,7 @@ from sklearn.linear_model import LogisticRegression
 - 4、预测
 ```
     predict = model.predict(X) #预测
-    
+
     print u"预测准确度为：%f%%"%np.mean(np.float64(predict == y)*100)
 ```
 - 5、输出结果（在训练集上的准确度）
@@ -465,8 +465,8 @@ from sklearn.linear_model import LogisticRegression
 
 ----------
 
-## 三、BP神经网络
-- [全部代码](/NeuralNetwok/NeuralNetwork.py)
+## 三、[BP神经网络](NeuralNetwok/)
+- [全部代码](NeuralNetwok/NeuralNetwork.py)
 
 ### 1、神经网络model
 - 先介绍个三层的神经网络，如下图所示
@@ -476,11 +476,11 @@ from sklearn.linear_model import LogisticRegression
 ![enter description here][15]
 
 - 所以可以得到：
- - 隐含层：  
-![a_1^{(2)} = g(\theta _{10}^{(1)}{x_0} + \theta _{11}^{(1)}{x_1} + \theta _{12}^{(1)}{x_2} + \theta _{13}^{(1)}{x_3})](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=a_1%5E%7B%282%29%7D%20%3D%20g%28%5Ctheta%20_%7B10%7D%5E%7B%281%29%7D%7Bx_0%7D%20%2B%20%5Ctheta%20_%7B11%7D%5E%7B%281%29%7D%7Bx_1%7D%20%2B%20%5Ctheta%20_%7B12%7D%5E%7B%281%29%7D%7Bx_2%7D%20%2B%20%5Ctheta%20_%7B13%7D%5E%7B%281%29%7D%7Bx_3%7D%29)   
-![a_2^{(2)} = g(\theta _{20}^{(1)}{x_0} + \theta _{21}^{(1)}{x_1} + \theta _{22}^{(1)}{x_2} + \theta _{23}^{(1)}{x_3})](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=a_2%5E%7B%282%29%7D%20%3D%20g%28%5Ctheta%20_%7B20%7D%5E%7B%281%29%7D%7Bx_0%7D%20%2B%20%5Ctheta%20_%7B21%7D%5E%7B%281%29%7D%7Bx_1%7D%20%2B%20%5Ctheta%20_%7B22%7D%5E%7B%281%29%7D%7Bx_2%7D%20%2B%20%5Ctheta%20_%7B23%7D%5E%7B%281%29%7D%7Bx_3%7D%29)   
+ - 隐含层：
+![a_1^{(2)} = g(\theta _{10}^{(1)}{x_0} + \theta _{11}^{(1)}{x_1} + \theta _{12}^{(1)}{x_2} + \theta _{13}^{(1)}{x_3})](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=a_1%5E%7B%282%29%7D%20%3D%20g%28%5Ctheta%20_%7B10%7D%5E%7B%281%29%7D%7Bx_0%7D%20%2B%20%5Ctheta%20_%7B11%7D%5E%7B%281%29%7D%7Bx_1%7D%20%2B%20%5Ctheta%20_%7B12%7D%5E%7B%281%29%7D%7Bx_2%7D%20%2B%20%5Ctheta%20_%7B13%7D%5E%7B%281%29%7D%7Bx_3%7D%29)
+![a_2^{(2)} = g(\theta _{20}^{(1)}{x_0} + \theta _{21}^{(1)}{x_1} + \theta _{22}^{(1)}{x_2} + \theta _{23}^{(1)}{x_3})](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=a_2%5E%7B%282%29%7D%20%3D%20g%28%5Ctheta%20_%7B20%7D%5E%7B%281%29%7D%7Bx_0%7D%20%2B%20%5Ctheta%20_%7B21%7D%5E%7B%281%29%7D%7Bx_1%7D%20%2B%20%5Ctheta%20_%7B22%7D%5E%7B%281%29%7D%7Bx_2%7D%20%2B%20%5Ctheta%20_%7B23%7D%5E%7B%281%29%7D%7Bx_3%7D%29)
 ![a_3^{(2)} = g(\theta _{30}^{(1)}{x_0} + \theta _{31}^{(1)}{x_1} + \theta _{32}^{(1)}{x_2} + \theta _{33}^{(1)}{x_3})](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=a_3%5E%7B%282%29%7D%20%3D%20g%28%5Ctheta%20_%7B30%7D%5E%7B%281%29%7D%7Bx_0%7D%20%2B%20%5Ctheta%20_%7B31%7D%5E%7B%281%29%7D%7Bx_1%7D%20%2B%20%5Ctheta%20_%7B32%7D%5E%7B%281%29%7D%7Bx_2%7D%20%2B%20%5Ctheta%20_%7B33%7D%5E%7B%281%29%7D%7Bx_3%7D%29)
- - 输出层   
+ - 输出层
 ![{h_\theta }(x) = a_1^{(3)} = g(\theta _{10}^{(2)}a_0^{(2)} + \theta _{11}^{(2)}a_1^{(2)} + \theta _{12}^{(2)}a_2^{(2)} + \theta _{13}^{(2)}a_3^{(2)})](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bh_%5Ctheta%20%7D%28x%29%20%3D%20a_1%5E%7B%283%29%7D%20%3D%20g%28%5Ctheta%20_%7B10%7D%5E%7B%282%29%7Da_0%5E%7B%282%29%7D%20%2B%20%5Ctheta%20_%7B11%7D%5E%7B%282%29%7Da_1%5E%7B%282%29%7D%20%2B%20%5Ctheta%20_%7B12%7D%5E%7B%282%29%7Da_2%5E%7B%282%29%7D%20%2B%20%5Ctheta%20_%7B13%7D%5E%7B%282%29%7Da_3%5E%7B%282%29%7D%29) 其中，**S型函数**![g(z) = \frac{1}{{1 + {e^{ - z}}}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=g%28z%29%20%3D%20%5Cfrac%7B1%7D%7B%7B1%20%2B%20%7Be%5E%7B%20-%20z%7D%7D%7D%7D)，也成为**激励函数**
 - 可以看出![{\theta ^{(1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Ctheta%20%5E%7B%281%29%7D%7D) 为3x4的矩阵，![{\theta ^{(2)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Ctheta%20%5E%7B%282%29%7D%7D)为1x4的矩阵
  - ![{\theta ^{(j)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Ctheta%20%5E%7B%28j%29%7D%7D) ==》`j+1`的单元数x（`j`层的单元数+1）
@@ -495,7 +495,7 @@ from sklearn.linear_model import LogisticRegression
 ### 3、正则化
 - `L`-->所有层的个数
 - ![{S_l}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7BS_l%7D)-->第`l`层unit的个数
-- 正则化后的**代价函数**为  
+- 正则化后的**代价函数**为
 ![enter description here][16]
  - ![\theta ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Ctheta%20)共有`L-1`层，
  - 然后是累加对应每一层的theta矩阵，注意不包含加上偏置项对应的theta(0)
@@ -507,33 +507,33 @@ def nnCostFunction(nn_params,input_layer_size,hidden_layer_size,num_labels,X,y,L
     # 还原theta1和theta2
     Theta1 = nn_params[0:hidden_layer_size*(input_layer_size+1)].reshape(hidden_layer_size,input_layer_size+1)
     Theta2 = nn_params[hidden_layer_size*(input_layer_size+1):length].reshape(num_labels,hidden_layer_size+1)
-    
+
     # np.savetxt("Theta1.csv",Theta1,delimiter=',')
-    
+
     m = X.shape[0]
     class_y = np.zeros((m,num_labels))      # 数据的y对应0-9，需要映射为0/1的关系
     # 映射y
     for i in range(num_labels):
         class_y[:,i] = np.int32(y==i).reshape(1,-1) # 注意reshape(1,-1)才可以赋值
-     
-    '''去掉theta1和theta2的第一列，因为正则化时从1开始'''    
-    Theta1_colCount = Theta1.shape[1]    
+
+    '''去掉theta1和theta2的第一列，因为正则化时从1开始'''
+    Theta1_colCount = Theta1.shape[1]
     Theta1_x = Theta1[:,1:Theta1_colCount]
-    Theta2_colCount = Theta2.shape[1]    
+    Theta2_colCount = Theta2.shape[1]
     Theta2_x = Theta2[:,1:Theta2_colCount]
     # 正则化向theta^2
     term = np.dot(np.transpose(np.vstack((Theta1_x.reshape(-1,1),Theta2_x.reshape(-1,1)))),np.vstack((Theta1_x.reshape(-1,1),Theta2_x.reshape(-1,1))))
-    
+
     '''正向传播,每次需要补上一列1的偏置bias'''
-    a1 = np.hstack((np.ones((m,1)),X))      
-    z2 = np.dot(a1,np.transpose(Theta1))    
+    a1 = np.hstack((np.ones((m,1)),X))
+    z2 = np.dot(a1,np.transpose(Theta1))
     a2 = sigmoid(z2)
     a2 = np.hstack((np.ones((m,1)),a2))
     z3 = np.dot(a2,np.transpose(Theta2))
-    h  = sigmoid(z3)    
-    '''代价'''    
-    J = -(np.dot(np.transpose(class_y.reshape(-1,1)),np.log(h.reshape(-1,1)))+np.dot(np.transpose(1-class_y.reshape(-1,1)),np.log(1-h.reshape(-1,1)))-Lambda*term/2)/m   
-    
+    h  = sigmoid(z3)
+    '''代价'''
+    J = -(np.dot(np.transpose(class_y.reshape(-1,1)),np.log(h.reshape(-1,1)))+np.dot(np.transpose(1-class_y.reshape(-1,1)),np.log(1-h.reshape(-1,1)))-Lambda*term/2)/m
+
     return np.ravel(J)
 ```
 
@@ -549,13 +549,13 @@ def nnCostFunction(nn_params,input_layer_size,hidden_layer_size,num_labels,X,y,L
 
 - 反向传播计算梯度的过程为：
  - ![\Delta _{ij}^{(l)} = 0](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%3D%200)（![\Delta ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5CDelta%20)是大写的![\delta ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Cdelta%20)）
- - for i=1-m:     
- -![{a^{(1)}} = {x^{(i)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Ba%5E%7B%281%29%7D%7D%20%3D%20%7Bx%5E%7B%28i%29%7D%7D)       
--正向传播计算![{a^{(l)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Ba%5E%7B%28l%29%7D%7D)（l=2,3,4...L）      
--反向计算![{\delta ^{(L)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Cdelta%20%5E%7B%28L%29%7D%7D)、![{\delta ^{(L - 1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Cdelta%20%5E%7B%28L%20-%201%29%7D%7D)...![{\delta ^{(2)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Cdelta%20%5E%7B%282%29%7D%7D)；       
--![\Delta _{ij}^{(l)} = \Delta _{ij}^{(l)} + a_j^{(l)}{\delta ^{(l + 1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%3D%20%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%2B%20a_j%5E%7B%28l%29%7D%7B%5Cdelta%20%5E%7B%28l%20%2B%201%29%7D%7D)          
--![D_{ij}^{(l)} = \frac{1}{m}\Delta _{ij}^{(l)} + \lambda \theta _{ij}^l\begin{array}{c}    {}&amp; {(j \ne 0)}  \end{array} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=D_%7Bij%7D%5E%7B%28l%29%7D%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%2B%20%5Clambda%20%5Ctheta%20_%7Bij%7D%5El%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7D%26%20%7B%28j%20%5Cne%200%29%7D%20%20%5Cend%7Barray%7D%20)      
-![D_{ij}^{(l)} = \frac{1}{m}\Delta _{ij}^{(l)} + \lambda \theta _{ij}^lj = 0\begin{array}{c}    {}&amp; {j = 0}  \end{array} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=D_%7Bij%7D%5E%7B%28l%29%7D%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%2B%20%5Clambda%20%5Ctheta%20_%7Bij%7D%5Elj%20%3D%200%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7D%26%20%7Bj%20%3D%200%7D%20%20%5Cend%7Barray%7D%20)     
+ - for i=1-m:
+ -![{a^{(1)}} = {x^{(i)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Ba%5E%7B%281%29%7D%7D%20%3D%20%7Bx%5E%7B%28i%29%7D%7D)
+-正向传播计算![{a^{(l)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Ba%5E%7B%28l%29%7D%7D)（l=2,3,4...L）
+-反向计算![{\delta ^{(L)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Cdelta%20%5E%7B%28L%29%7D%7D)、![{\delta ^{(L - 1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Cdelta%20%5E%7B%28L%20-%201%29%7D%7D)...![{\delta ^{(2)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Cdelta%20%5E%7B%282%29%7D%7D)；
+-![\Delta _{ij}^{(l)} = \Delta _{ij}^{(l)} + a_j^{(l)}{\delta ^{(l + 1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%3D%20%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%2B%20a_j%5E%7B%28l%29%7D%7B%5Cdelta%20%5E%7B%28l%20%2B%201%29%7D%7D)
+-![D_{ij}^{(l)} = \frac{1}{m}\Delta _{ij}^{(l)} + \lambda \theta _{ij}^l\begin{array}{c}    {}&amp; {(j \ne 0)}  \end{array} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=D_%7Bij%7D%5E%7B%28l%29%7D%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%2B%20%5Clambda%20%5Ctheta%20_%7Bij%7D%5El%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7D%26%20%7B%28j%20%5Cne%200%29%7D%20%20%5Cend%7Barray%7D%20)
+![D_{ij}^{(l)} = \frac{1}{m}\Delta _{ij}^{(l)} + \lambda \theta _{ij}^lj = 0\begin{array}{c}    {}&amp; {j = 0}  \end{array} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=D_%7Bij%7D%5E%7B%28l%29%7D%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5CDelta%20_%7Bij%7D%5E%7B%28l%29%7D%20%2B%20%5Clambda%20%5Ctheta%20_%7Bij%7D%5Elj%20%3D%200%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7D%26%20%7Bj%20%3D%200%7D%20%20%5Cend%7Barray%7D%20)
 
 - 最后![\frac{{\partial J(\Theta )}}{{\partial \Theta _{ij}^{(l)}}} = D_{ij}^{(l)}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Cfrac%7B%7B%5Cpartial%20J%28%5CTheta%20%29%7D%7D%7B%7B%5Cpartial%20%5CTheta%20_%7Bij%7D%5E%7B%28l%29%7D%7D%7D%20%3D%20D_%7Bij%7D%5E%7B%28l%29%7D)，即得到代价函数的梯度
 - 实现代码：
@@ -566,21 +566,21 @@ def nnGradient(nn_params,input_layer_size,hidden_layer_size,num_labels,X,y,Lambd
     Theta1 = nn_params[0:hidden_layer_size*(input_layer_size+1)].reshape(hidden_layer_size,input_layer_size+1).copy()   # 这里使用copy函数，否则下面修改Theta的值，nn_params也会一起修改
     Theta2 = nn_params[hidden_layer_size*(input_layer_size+1):length].reshape(num_labels,hidden_layer_size+1).copy()
     m = X.shape[0]
-    class_y = np.zeros((m,num_labels))      # 数据的y对应0-9，需要映射为0/1的关系    
+    class_y = np.zeros((m,num_labels))      # 数据的y对应0-9，需要映射为0/1的关系
     # 映射y
     for i in range(num_labels):
         class_y[:,i] = np.int32(y==i).reshape(1,-1) # 注意reshape(1,-1)才可以赋值
-     
+
     '''去掉theta1和theta2的第一列，因为正则化时从1开始'''
-    Theta1_colCount = Theta1.shape[1]    
+    Theta1_colCount = Theta1.shape[1]
     Theta1_x = Theta1[:,1:Theta1_colCount]
-    Theta2_colCount = Theta2.shape[1]    
+    Theta2_colCount = Theta2.shape[1]
     Theta2_x = Theta2[:,1:Theta2_colCount]
-    
+
     Theta1_grad = np.zeros((Theta1.shape))  #第一层到第二层的权重
     Theta2_grad = np.zeros((Theta2.shape))  #第二层到第三层的权重
-      
-   
+
+
     '''正向传播，每次需要补上一列1的偏置bias'''
     a1 = np.hstack((np.ones((m,1)),X))
     z2 = np.dot(a1,np.transpose(Theta1))
@@ -588,8 +588,8 @@ def nnGradient(nn_params,input_layer_size,hidden_layer_size,num_labels,X,y,Lambd
     a2 = np.hstack((np.ones((m,1)),a2))
     z3 = np.dot(a2,np.transpose(Theta2))
     h  = sigmoid(z3)
-    
-    
+
+
     '''反向传播，delta为误差，'''
     delta3 = np.zeros((m,num_labels))
     delta2 = np.zeros((m,hidden_layer_size))
@@ -599,9 +599,9 @@ def nnGradient(nn_params,input_layer_size,hidden_layer_size,num_labels,X,y,Lambd
         Theta2_grad = Theta2_grad+np.dot(np.transpose(delta3[i,:].reshape(1,-1)),a2[i,:].reshape(1,-1))
         delta2[i,:] = np.dot(delta3[i,:].reshape(1,-1),Theta2_x)*sigmoidGradient(z2[i,:])
         Theta1_grad = Theta1_grad+np.dot(np.transpose(delta2[i,:].reshape(1,-1)),a1[i,:].reshape(1,-1))
-    
+
     Theta1[:,0] = 0
-    Theta2[:,0] = 0          
+    Theta2[:,0] = 0
     '''梯度'''
     grad = (np.vstack((Theta1_grad.reshape(-1,1),Theta2_grad.reshape(-1,1)))+Lambda*np.vstack((Theta1.reshape(-1,1),Theta2.reshape(-1,1))))/m
     return np.ravel(grad)
@@ -631,27 +631,27 @@ def checkGradient(Lambda = 0):
     hidden_layer_size = 5
     num_labels = 3
     m = 5
-    initial_Theta1 = debugInitializeWeights(input_layer_size,hidden_layer_size); 
+    initial_Theta1 = debugInitializeWeights(input_layer_size,hidden_layer_size);
     initial_Theta2 = debugInitializeWeights(hidden_layer_size,num_labels)
     X = debugInitializeWeights(input_layer_size-1,m)
     y = 1+np.transpose(np.mod(np.arange(1,m+1), num_labels))# 初始化y
-    
+
     y = y.reshape(-1,1)
-    nn_params = np.vstack((initial_Theta1.reshape(-1,1),initial_Theta2.reshape(-1,1)))  #展开theta 
+    nn_params = np.vstack((initial_Theta1.reshape(-1,1),initial_Theta2.reshape(-1,1)))  #展开theta
     '''BP求出梯度'''
-    grad = nnGradient(nn_params, input_layer_size, hidden_layer_size, 
-                     num_labels, X, y, Lambda)  
+    grad = nnGradient(nn_params, input_layer_size, hidden_layer_size,
+                     num_labels, X, y, Lambda)
     '''使用数值法计算梯度'''
     num_grad = np.zeros((nn_params.shape[0]))
     step = np.zeros((nn_params.shape[0]))
     e = 1e-4
     for i in range(nn_params.shape[0]):
         step[i] = e
-        loss1 = nnCostFunction(nn_params-step.reshape(-1,1), input_layer_size, hidden_layer_size, 
-                              num_labels, X, y, 
+        loss1 = nnCostFunction(nn_params-step.reshape(-1,1), input_layer_size, hidden_layer_size,
+                              num_labels, X, y,
                               Lambda)
-        loss2 = nnCostFunction(nn_params+step.reshape(-1,1), input_layer_size, hidden_layer_size, 
-                              num_labels, X, y, 
+        loss2 = nnCostFunction(nn_params+step.reshape(-1,1), input_layer_size, hidden_layer_size,
+                              num_labels, X, y,
                               Lambda)
         num_grad[i] = (loss2-loss1)/(2*e)
         step[i]=0
@@ -687,30 +687,30 @@ def predict(Theta1,Theta2,X):
     h1 = sigmoid(np.dot(X,np.transpose(Theta1)))
     h1 = np.hstack((np.ones((m,1)),h1))
     h2 = sigmoid(np.dot(h1,np.transpose(Theta2)))
-    
+
     '''
     返回h中每一行最大值所在的列号
     - np.max(h, axis=1)返回h中每一行的最大值（是某个数字的最大概率）
     - 最后where找到的最大概率所在的列号（列号即是对应的数字）
     '''
     #np.savetxt("h2.csv",h2,delimiter=',')
-    p = np.array(np.where(h2[0,:] == np.max(h2, axis=1)[0]))  
+    p = np.array(np.where(h2[0,:] == np.max(h2, axis=1)[0]))
     for i in np.arange(1, m):
         t = np.array(np.where(h2[i,:] == np.max(h2, axis=1)[i]))
         p = np.vstack((p,t))
-    return p 
+    return p
 ```
 
 ### 9、输出结果
-- 梯度检查：     
+- 梯度检查：
 ![enter description here][19]
-- 随机显示100个手写数字     
+- 随机显示100个手写数字
 ![enter description here][20]
-- 显示theta1权重     
+- 显示theta1权重
 ![enter description here][21]
-- 训练集预测准确度     
+- 训练集预测准确度
 ![enter description here][22]
-- 归一化后训练集预测准确度     
+- 归一化后训练集预测准确度
 ![enter description here][23]
 
 --------------------
@@ -718,56 +718,56 @@ def predict(Theta1,Theta2,X):
 ## 四、SVM支持向量机
 
 ### 1、代价函数
-- 在逻辑回归中，我们的代价为：   
-![\cos t({h_\theta }(x),y) = \left\{ {\begin{array}{c}    { - \log ({h_\theta }(x))} \\    { - \log (1 - {h_\theta }(x))}  \end{array} \begin{array}{c}    {y = 1} \\    {y = 0}  \end{array} } \right.](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Ccos%20t%28%7Bh_%5Ctheta%20%7D%28x%29%2Cy%29%20%3D%20%5Cleft%5C%7B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%20-%20%5Clog%20%28%7Bh_%5Ctheta%20%7D%28x%29%29%7D%20%5C%5C%20%20%20%20%7B%20-%20%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28x%29%29%7D%20%20%5Cend%7Barray%7D%20%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7By%20%3D%201%7D%20%5C%5C%20%20%20%20%7By%20%3D%200%7D%20%20%5Cend%7Barray%7D%20%7D%20%5Cright.)，    
+- 在逻辑回归中，我们的代价为：
+![\cos t({h_\theta }(x),y) = \left\{ {\begin{array}{c}    { - \log ({h_\theta }(x))} \\    { - \log (1 - {h_\theta }(x))}  \end{array} \begin{array}{c}    {y = 1} \\    {y = 0}  \end{array} } \right.](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Ccos%20t%28%7Bh_%5Ctheta%20%7D%28x%29%2Cy%29%20%3D%20%5Cleft%5C%7B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%20-%20%5Clog%20%28%7Bh_%5Ctheta%20%7D%28x%29%29%7D%20%5C%5C%20%20%20%20%7B%20-%20%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28x%29%29%7D%20%20%5Cend%7Barray%7D%20%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7By%20%3D%201%7D%20%5C%5C%20%20%20%20%7By%20%3D%200%7D%20%20%5Cend%7Barray%7D%20%7D%20%5Cright.)，
 其中：![{h_\theta }({\text{z}}) = \frac{1}{{1 + {e^{ - z}}}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bh_%5Ctheta%20%7D%28%7B%5Ctext%7Bz%7D%7D%29%20%3D%20%5Cfrac%7B1%7D%7B%7B1%20%2B%20%7Be%5E%7B%20-%20z%7D%7D%7D%7D)，![z = {\theta ^T}x](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=z%20%3D%20%7B%5Ctheta%20%5ET%7Dx)
-- 如图所示，如果`y=1`，`cost`代价函数如图所示    
-![enter description here][24]    
+- 如图所示，如果`y=1`，`cost`代价函数如图所示
+![enter description here][24]
 我们想让![{\theta ^T}x &gt;  &gt; 0](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%5Ctheta%20%5ET%7Dx%20%3E%20%20%3E%200)，即`z>>0`，这样的话`cost`代价函数才会趋于最小（这是我们想要的），所以用途中**红色**的函数![\cos {t_1}(z)](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Ccos%20%7Bt_1%7D%28z%29)代替逻辑回归中的cost
 - 当`y=0`时同样，用![\cos {t_0}(z)](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Ccos%20%7Bt_0%7D%28z%29)代替
 ![enter description here][25]
-- 最终得到的代价函数为：    
-![J(\theta ) = C\sum\limits_{i = 1}^m {[{y^{(i)}}\cos {t_1}({\theta ^T}{x^{(i)}}) + (1 - {y^{(i)}})\cos {t_0}({\theta ^T}{x^{(i)}})} ] + \frac{1}{2}\sum\limits_{j = 1}^{\text{n}} {\theta _j^2} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%5Ctheta%20%29%20%3D%20C%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Ccos%20%7Bt_1%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7By%5E%7B%28i%29%7D%7D%29%5Ccos%20%7Bt_0%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%7D%20%5D%20%2B%20%5Cfrac%7B1%7D%7B2%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5E%7B%5Ctext%7Bn%7D%7D%20%7B%5Ctheta%20_j%5E2%7D%20)   
+- 最终得到的代价函数为：
+![J(\theta ) = C\sum\limits_{i = 1}^m {[{y^{(i)}}\cos {t_1}({\theta ^T}{x^{(i)}}) + (1 - {y^{(i)}})\cos {t_0}({\theta ^T}{x^{(i)}})} ] + \frac{1}{2}\sum\limits_{j = 1}^{\text{n}} {\theta _j^2} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%5Ctheta%20%29%20%3D%20C%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Ccos%20%7Bt_1%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7By%5E%7B%28i%29%7D%7D%29%5Ccos%20%7Bt_0%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%7D%20%5D%20%2B%20%5Cfrac%7B1%7D%7B2%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5E%7B%5Ctext%7Bn%7D%7D%20%7B%5Ctheta%20_j%5E2%7D%20)
 最后我们想要![\mathop {\min }\limits_\theta  J(\theta )](http://latex.codecogs.com/gif.latex?%5Clarge%20%5Cmathop%20%7B%5Cmin%20%7D%5Climits_%5Ctheta%20J%28%5Ctheta%20%29)
-- 之前我们逻辑回归中的代价函数为：   
-![J(\theta ) =  - \frac{1}{m}\sum\limits_{i = 1}^m {[{y^{(i)}}\log ({h_\theta }({x^{(i)}}) + (1 - } {y^{(i)}})\log (1 - {h_\theta }({x^{(i)}})] + \frac{\lambda }{{2m}}\sum\limits_{j = 1}^n {\theta _j^2} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%5Ctheta%20%29%20%3D%20%20-%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Clog%20%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7D%20%7By%5E%7B%28i%29%7D%7D%29%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%5D%20%2B%20%5Cfrac%7B%5Clambda%20%7D%7B%7B2m%7D%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5En%20%7B%5Ctheta%20_j%5E2%7D%20)   
+- 之前我们逻辑回归中的代价函数为：
+![J(\theta ) =  - \frac{1}{m}\sum\limits_{i = 1}^m {[{y^{(i)}}\log ({h_\theta }({x^{(i)}}) + (1 - } {y^{(i)}})\log (1 - {h_\theta }({x^{(i)}})] + \frac{\lambda }{{2m}}\sum\limits_{j = 1}^n {\theta _j^2} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%5Ctheta%20%29%20%3D%20%20-%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Clog%20%28%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7D%20%7By%5E%7B%28i%29%7D%7D%29%5Clog%20%281%20-%20%7Bh_%5Ctheta%20%7D%28%7Bx%5E%7B%28i%29%7D%7D%29%5D%20%2B%20%5Cfrac%7B%5Clambda%20%7D%7B%7B2m%7D%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5En%20%7B%5Ctheta%20_j%5E2%7D%20)
 可以认为这里的![C = \frac{m}{\lambda }](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=C%20%3D%20%5Cfrac%7Bm%7D%7B%5Clambda%20%7D)，只是表达形式问题，这里`C`的值越大，SVM的决策边界的`margin`也越大，下面会说明
 
 ### 2、Large Margin
-- 如下图所示,SVM分类会使用最大的`margin`将其分开    
+- 如下图所示,SVM分类会使用最大的`margin`将其分开
 ![enter description here][26]
 - 先说一下向量内积
- - ![u = \left[ {\begin{array}{c}    {{u_1}} \\    {{u_2}}  \end{array} } \right]](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=u%20%3D%20%5Cleft%5B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7Bu_1%7D%7D%20%5C%5C%20%20%20%20%7B%7Bu_2%7D%7D%20%20%5Cend%7Barray%7D%20%7D%20%5Cright%5D)，![v = \left[ {\begin{array}{c}    {{v_1}} \\    {{v_2}}  \end{array} } \right]](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=v%20%3D%20%5Cleft%5B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7Bv_1%7D%7D%20%5C%5C%20%20%20%20%7B%7Bv_2%7D%7D%20%20%5Cend%7Barray%7D%20%7D%20%5Cright%5D)    
+ - ![u = \left[ {\begin{array}{c}    {{u_1}} \\    {{u_2}}  \end{array} } \right]](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=u%20%3D%20%5Cleft%5B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7Bu_1%7D%7D%20%5C%5C%20%20%20%20%7B%7Bu_2%7D%7D%20%20%5Cend%7Barray%7D%20%7D%20%5Cright%5D)，![v = \left[ {\begin{array}{c}    {{v_1}} \\    {{v_2}}  \end{array} } \right]](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=v%20%3D%20%5Cleft%5B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%20%20%20%7B%7Bv_1%7D%7D%20%5C%5C%20%20%20%20%7B%7Bv_2%7D%7D%20%20%5Cend%7Barray%7D%20%7D%20%5Cright%5D)
  - ![||u||](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7C%7Cu%7C%7C)表示`u`的**欧几里得范数**（欧式范数），![||u||{\text{ = }}\sqrt {{\text{u}}_1^2 + u_2^2} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7C%7Cu%7C%7C%7B%5Ctext%7B%20%3D%20%7D%7D%5Csqrt%20%7B%7B%5Ctext%7Bu%7D%7D_1%5E2%20%2B%20u_2%5E2%7D%20)
- - `向量V`在`向量u`上的投影的长度记为`p`，则：向量内积：    
- ![{{\text{u}}^T}v = p||u|| = {u_1}{v_1} + {u_2}{v_2}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%7B%5Ctext%7Bu%7D%7D%5ET%7Dv%20%3D%20p%7C%7Cu%7C%7C%20%3D%20%7Bu_1%7D%7Bv_1%7D%20%2B%20%7Bu_2%7D%7Bv_2%7D)      
- ![enter description here][27]  
+ - `向量V`在`向量u`上的投影的长度记为`p`，则：向量内积：
+ ![{{\text{u}}^T}v = p||u|| = {u_1}{v_1} + {u_2}{v_2}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7B%7B%5Ctext%7Bu%7D%7D%5ET%7Dv%20%3D%20p%7C%7Cu%7C%7C%20%3D%20%7Bu_1%7D%7Bv_1%7D%20%2B%20%7Bu_2%7D%7Bv_2%7D)
+ ![enter description here][27]
 根据向量夹角公式推导一下即可，![\cos \theta  = \frac{{\overrightarrow {\text{u}} \overrightarrow v }}{{|\overrightarrow {\text{u}} ||\overrightarrow v |}}](http://latex.codecogs.com/gif.latex?%5Clarge%20%5Ccos%20%5Ctheta%20%3D%20%5Cfrac%7B%7B%5Coverrightarrow%20%7B%5Ctext%7Bu%7D%7D%20%5Coverrightarrow%20v%20%7D%7D%7B%7B%7C%5Coverrightarrow%20%7B%5Ctext%7Bu%7D%7D%20%7C%7C%5Coverrightarrow%20v%20%7C%7D%7D)
 
-- 前面说过，当`C`越大时，`margin`也就越大，我们的目的是最小化代价函数`J(θ)`,当`margin`最大时，`C`的乘积项![\sum\limits_{i = 1}^m {[{y^{(i)}}\cos {t_1}({\theta ^T}{x^{(i)}}) + (1 - {y^{(i)}})\cos {t_0}({\theta ^T}{x^{(i)}})} ]](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Ccos%20%7Bt_1%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7By%5E%7B%28i%29%7D%7D%29%5Ccos%20%7Bt_0%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%7D%20%5D)要很小，所以近似为：   
-![J(\theta ) = C0 + \frac{1}{2}\sum\limits_{j = 1}^{\text{n}} {\theta _j^2}  = \frac{1}{2}\sum\limits_{j = 1}^{\text{n}} {\theta _j^2}  = \frac{1}{2}(\theta _1^2 + \theta _2^2) = \frac{1}{2}{\sqrt {\theta _1^2 + \theta _2^2} ^2}](http://latex.codecogs.com/gif.latex?%5Clarge%20J%28%5Ctheta%20%29%20%3D%20C0%20&plus;%20%5Cfrac%7B1%7D%7B2%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5E%7B%5Ctext%7Bn%7D%7D%20%7B%5Ctheta%20_j%5E2%7D%20%3D%20%5Cfrac%7B1%7D%7B2%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5E%7B%5Ctext%7Bn%7D%7D%20%7B%5Ctheta%20_j%5E2%7D%20%3D%20%5Cfrac%7B1%7D%7B2%7D%28%5Ctheta%20_1%5E2%20&plus;%20%5Ctheta%20_2%5E2%29%20%3D%20%5Cfrac%7B1%7D%7B2%7D%7B%5Csqrt%20%7B%5Ctheta%20_1%5E2%20&plus;%20%5Ctheta%20_2%5E2%7D%20%5E2%7D)，      
+- 前面说过，当`C`越大时，`margin`也就越大，我们的目的是最小化代价函数`J(θ)`,当`margin`最大时，`C`的乘积项![\sum\limits_{i = 1}^m {[{y^{(i)}}\cos {t_1}({\theta ^T}{x^{(i)}}) + (1 - {y^{(i)}})\cos {t_0}({\theta ^T}{x^{(i)}})} ]](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Ccos%20%7Bt_1%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7By%5E%7B%28i%29%7D%7D%29%5Ccos%20%7Bt_0%7D%28%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%29%7D%20%5D)要很小，所以近似为：
+![J(\theta ) = C0 + \frac{1}{2}\sum\limits_{j = 1}^{\text{n}} {\theta _j^2}  = \frac{1}{2}\sum\limits_{j = 1}^{\text{n}} {\theta _j^2}  = \frac{1}{2}(\theta _1^2 + \theta _2^2) = \frac{1}{2}{\sqrt {\theta _1^2 + \theta _2^2} ^2}](http://latex.codecogs.com/gif.latex?%5Clarge%20J%28%5Ctheta%20%29%20%3D%20C0%20&plus;%20%5Cfrac%7B1%7D%7B2%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5E%7B%5Ctext%7Bn%7D%7D%20%7B%5Ctheta%20_j%5E2%7D%20%3D%20%5Cfrac%7B1%7D%7B2%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5E%7B%5Ctext%7Bn%7D%7D%20%7B%5Ctheta%20_j%5E2%7D%20%3D%20%5Cfrac%7B1%7D%7B2%7D%28%5Ctheta%20_1%5E2%20&plus;%20%5Ctheta%20_2%5E2%29%20%3D%20%5Cfrac%7B1%7D%7B2%7D%7B%5Csqrt%20%7B%5Ctheta%20_1%5E2%20&plus;%20%5Ctheta%20_2%5E2%7D%20%5E2%7D)，
 我们最后的目的就是求使代价最小的`θ`
-- 由   
-![\left\{ {\begin{array}{c}    {{\theta ^T}{x^{(i)}} \geqslant 1} \\    {{\theta ^T}{x^{(i)}} \leqslant  - 1}  \end{array} } \right.\begin{array}{c}    {({y^{(i)}} = 1)} \\    {({y^{(i)}} = 0)}  \end{array} ](http://latex.codecogs.com/gif.latex?%5Clarge%20%5Cleft%5C%7B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%7B%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%20%5Cgeqslant%201%7D%20%5C%5C%20%7B%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%20%5Cleqslant%20-%201%7D%20%5Cend%7Barray%7D%20%7D%20%5Cright.%5Cbegin%7Barray%7D%7Bc%7D%20%7B%28%7By%5E%7B%28i%29%7D%7D%20%3D%201%29%7D%20%5C%5C%20%7B%28%7By%5E%7B%28i%29%7D%7D%20%3D%200%29%7D%20%5Cend%7Barray%7D)可以得到：    
+- 由
+![\left\{ {\begin{array}{c}    {{\theta ^T}{x^{(i)}} \geqslant 1} \\    {{\theta ^T}{x^{(i)}} \leqslant  - 1}  \end{array} } \right.\begin{array}{c}    {({y^{(i)}} = 1)} \\    {({y^{(i)}} = 0)}  \end{array} ](http://latex.codecogs.com/gif.latex?%5Clarge%20%5Cleft%5C%7B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%7B%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%20%5Cgeqslant%201%7D%20%5C%5C%20%7B%7B%5Ctheta%20%5ET%7D%7Bx%5E%7B%28i%29%7D%7D%20%5Cleqslant%20-%201%7D%20%5Cend%7Barray%7D%20%7D%20%5Cright.%5Cbegin%7Barray%7D%7Bc%7D%20%7B%28%7By%5E%7B%28i%29%7D%7D%20%3D%201%29%7D%20%5C%5C%20%7B%28%7By%5E%7B%28i%29%7D%7D%20%3D%200%29%7D%20%5Cend%7Barray%7D)可以得到：
 ![\left\{ {\begin{array}{c}    {{p^{(i)}}||\theta || \geqslant 1} \\    {{p^{(i)}}||\theta || \leqslant  - 1}  \end{array} } \right.\begin{array}{c}    {({y^{(i)}} = 1)} \\    {({y^{(i)}} = 0)}  \end{array} ](http://latex.codecogs.com/gif.latex?%5Clarge%20%5Cleft%5C%7B%20%7B%5Cbegin%7Barray%7D%7Bc%7D%20%7B%7Bp%5E%7B%28i%29%7D%7D%7C%7C%5Ctheta%20%7C%7C%20%5Cgeqslant%201%7D%20%5C%5C%20%7B%7Bp%5E%7B%28i%29%7D%7D%7C%7C%5Ctheta%20%7C%7C%20%5Cleqslant%20-%201%7D%20%5Cend%7Barray%7D%20%7D%20%5Cright.%5Cbegin%7Barray%7D%7Bc%7D%20%7B%28%7By%5E%7B%28i%29%7D%7D%20%3D%201%29%7D%20%5C%5C%20%7B%28%7By%5E%7B%28i%29%7D%7D%20%3D%200%29%7D%20%5Cend%7Barray%7D)，`p`即为`x`在`θ`上的投影
-- 如下图所示，假设决策边界如图，找其中的一个点，到`θ`上的投影为`p`,则![p||\theta || \geqslant 1](http://latex.codecogs.com/gif.latex?%5Clarge%20p%7C%7C%5Ctheta%20%7C%7C%20%5Cgeqslant%201)或者![p||\theta || \leqslant  - 1](http://latex.codecogs.com/gif.latex?%5Clarge%20p%7C%7C%5Ctheta%20%7C%7C%20%5Cleqslant%20-%201)，若是`p`很小，则需要![||\theta ||](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7C%7C%5Ctheta%20%7C%7C)很大，这与我们要求的`θ`使![||\theta || = \frac{1}{2}\sqrt {\theta _1^2 + \theta _2^2} ](http://latex.codecogs.com/gif.latex?%5Clarge%20%7C%7C%5Ctheta%20%7C%7C%20%3D%20%5Cfrac%7B1%7D%7B2%7D%5Csqrt%20%7B%5Ctheta%20_1%5E2%20&plus;%20%5Ctheta%20_2%5E2%7D)最小相违背，**所以**最后求的是`large margin`   
+- 如下图所示，假设决策边界如图，找其中的一个点，到`θ`上的投影为`p`,则![p||\theta || \geqslant 1](http://latex.codecogs.com/gif.latex?%5Clarge%20p%7C%7C%5Ctheta%20%7C%7C%20%5Cgeqslant%201)或者![p||\theta || \leqslant  - 1](http://latex.codecogs.com/gif.latex?%5Clarge%20p%7C%7C%5Ctheta%20%7C%7C%20%5Cleqslant%20-%201)，若是`p`很小，则需要![||\theta ||](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7C%7C%5Ctheta%20%7C%7C)很大，这与我们要求的`θ`使![||\theta || = \frac{1}{2}\sqrt {\theta _1^2 + \theta _2^2} ](http://latex.codecogs.com/gif.latex?%5Clarge%20%7C%7C%5Ctheta%20%7C%7C%20%3D%20%5Cfrac%7B1%7D%7B2%7D%5Csqrt%20%7B%5Ctheta%20_1%5E2%20&plus;%20%5Ctheta%20_2%5E2%7D)最小相违背，**所以**最后求的是`large margin`
 ![enter description here][28]
 
 ### 3、SVM Kernel（核函数）
 - 对于线性可分的问题，使用**线性核函数**即可
 - 对于线性不可分的问题，在逻辑回归中，我们是将`feature`映射为使用多项式的形式![1 + {x_1} + {x_2} + x_1^2 + {x_1}{x_2} + x_2^2](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=1%20%2B%20%7Bx_1%7D%20%2B%20%7Bx_2%7D%20%2B%20x_1%5E2%20%2B%20%7Bx_1%7D%7Bx_2%7D%20%2B%20x_2%5E2)，`SVM`中也有**多项式核函数**，但是更常用的是**高斯核函数**，也称为**RBF核**
-- 高斯核函数为：![f(x) = {e^{ - \frac{{||x - u|{|^2}}}{{2{\sigma ^2}}}}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=f%28x%29%20%3D%20%7Be%5E%7B%20-%20%5Cfrac%7B%7B%7C%7Cx%20-%20u%7C%7B%7C%5E2%7D%7D%7D%7B%7B2%7B%5Csigma%20%5E2%7D%7D%7D%7D%7D)     
+- 高斯核函数为：![f(x) = {e^{ - \frac{{||x - u|{|^2}}}{{2{\sigma ^2}}}}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=f%28x%29%20%3D%20%7Be%5E%7B%20-%20%5Cfrac%7B%7B%7C%7Cx%20-%20u%7C%7B%7C%5E2%7D%7D%7D%7B%7B2%7B%5Csigma%20%5E2%7D%7D%7D%7D%7D)
 假设如图几个点，
 ![enter description here][29]
-令：   
-![{f_1} = similarity(x,{l^{(1)}}) = {e^{ - \frac{{||x - {l^{(1)}}|{|^2}}}{{2{\sigma ^2}}}}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bf_1%7D%20%3D%20similarity%28x%2C%7Bl%5E%7B%281%29%7D%7D%29%20%3D%20%7Be%5E%7B%20-%20%5Cfrac%7B%7B%7C%7Cx%20-%20%7Bl%5E%7B%281%29%7D%7D%7C%7B%7C%5E2%7D%7D%7D%7B%7B2%7B%5Csigma%20%5E2%7D%7D%7D%7D%7D)   
+令：
+![{f_1} = similarity(x,{l^{(1)}}) = {e^{ - \frac{{||x - {l^{(1)}}|{|^2}}}{{2{\sigma ^2}}}}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bf_1%7D%20%3D%20similarity%28x%2C%7Bl%5E%7B%281%29%7D%7D%29%20%3D%20%7Be%5E%7B%20-%20%5Cfrac%7B%7B%7C%7Cx%20-%20%7Bl%5E%7B%281%29%7D%7D%7C%7B%7C%5E2%7D%7D%7D%7B%7B2%7B%5Csigma%20%5E2%7D%7D%7D%7D%7D)
 ![{f_2} = similarity(x,{l^{(2)}}) = {e^{ - \frac{{||x - {l^{(2)}}|{|^2}}}{{2{\sigma ^2}}}}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bf_2%7D%20%3D%20similarity%28x%2C%7Bl%5E%7B%282%29%7D%7D%29%20%3D%20%7Be%5E%7B%20-%20%5Cfrac%7B%7B%7C%7Cx%20-%20%7Bl%5E%7B%282%29%7D%7D%7C%7B%7C%5E2%7D%7D%7D%7B%7B2%7B%5Csigma%20%5E2%7D%7D%7D%7D%7D)
 .
 .
 .
-- 可以看出，若是`x`与![{l^{(1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bl%5E%7B%281%29%7D%7D)距离较近，==》![{f_1} \approx {e^0} = 1](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bf_1%7D%20%5Capprox%20%7Be%5E0%7D%20%3D%201)，（即相似度较大）   
+- 可以看出，若是`x`与![{l^{(1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bl%5E%7B%281%29%7D%7D)距离较近，==》![{f_1} \approx {e^0} = 1](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bf_1%7D%20%5Capprox%20%7Be%5E0%7D%20%3D%201)，（即相似度较大）
 若是`x`与![{l^{(1)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bl%5E%7B%281%29%7D%7D)距离较远，==》![{f_2} \approx {e^{ - \infty }} = 0](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bf_2%7D%20%5Capprox%20%7Be%5E%7B%20-%20%5Cinfty%20%7D%7D%20%3D%200)，（即相似度较低）
-- 高斯核函数的`σ`越小，`f`下降的越快      
+- 高斯核函数的`σ`越小，`f`下降的越快
 ![enter description here][30]
 ![enter description here][31]
 
@@ -775,7 +775,7 @@ def predict(Theta1,Theta2,X):
  - 训练集：![(({x^{(1)}},{y^{(1)}}),({x^{(2)}},{y^{(2)}}),...({x^{(m)}},{y^{(m)}}))](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%28%28%7Bx%5E%7B%281%29%7D%7D%2C%7By%5E%7B%281%29%7D%7D%29%2C%28%7Bx%5E%7B%282%29%7D%7D%2C%7By%5E%7B%282%29%7D%7D%29%2C...%28%7Bx%5E%7B%28m%29%7D%7D%2C%7By%5E%7B%28m%29%7D%7D%29%29)
  - 选择：![{l^{(1)}} = {x^{(1)}},{l^{(2)}} = {x^{(2)}}...{l^{(m)}} = {x^{(m)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bl%5E%7B%281%29%7D%7D%20%3D%20%7Bx%5E%7B%281%29%7D%7D%2C%7Bl%5E%7B%282%29%7D%7D%20%3D%20%7Bx%5E%7B%282%29%7D%7D...%7Bl%5E%7B%28m%29%7D%7D%20%3D%20%7Bx%5E%7B%28m%29%7D%7D)
  - 对于给出的`x`，计算`f`,令：![f_0^{(i)} = 1](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=f_0%5E%7B%28i%29%7D%20%3D%201)所以：![{f^{(i)}} \in {R^{m + 1}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bf%5E%7B%28i%29%7D%7D%20%5Cin%20%7BR%5E%7Bm%20%2B%201%7D%7D)
- - 最小化`J`求出`θ`，          
+ - 最小化`J`求出`θ`，
  ![J(\theta ) = C\sum\limits_{i = 1}^m {[{y^{(i)}}\cos {t_1}({\theta ^T}{f^{(i)}}) + (1 - {y^{(i)}})\cos {t_0}({\theta ^T}{f^{(i)}})} ] + \frac{1}{2}\sum\limits_{j = 1}^{\text{n}} {\theta _j^2} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%5Ctheta%20%29%20%3D%20C%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%5B%7By%5E%7B%28i%29%7D%7D%5Ccos%20%7Bt_1%7D%28%7B%5Ctheta%20%5ET%7D%7Bf%5E%7B%28i%29%7D%7D%29%20%2B%20%281%20-%20%7By%5E%7B%28i%29%7D%7D%29%5Ccos%20%7Bt_0%7D%28%7B%5Ctheta%20%5ET%7D%7Bf%5E%7B%28i%29%7D%7D%29%7D%20%5D%20%2B%20%5Cfrac%7B1%7D%7B2%7D%5Csum%5Climits_%7Bj%20%3D%201%7D%5E%7B%5Ctext%7Bn%7D%7D%20%7B%5Ctheta%20_j%5E2%7D%20)
  - 如果![{\theta ^T}f \geqslant 0](http://latex.codecogs.com/gif.latex?%5Clarge%20%7B%5Ctheta%20%5ET%7Df%20%5Cgeqslant%200)，==》预测`y=1`
 
@@ -789,7 +789,7 @@ def predict(Theta1,Theta2,X):
     y = data1['y']
     y = np.ravel(y)
     plot_data(X,y)
-    
+
     model = svm.SVC(C=1.0,kernel='linear').fit(X,y) # 指定核函数为线性核函数
 ```
 - 非线性可分的，默认核函数为`rbf`
@@ -801,19 +801,19 @@ def predict(Theta1,Theta2,X):
     y = np.ravel(y)
     plt = plot_data(X,y)
     plt.show()
-    
+
     model = svm.SVC(gamma=100).fit(X,y)     # gamma为核函数的系数，值越大拟合的越好
 ```
 ### 5、运行结果
-- 线性可分的决策边界：    
+- 线性可分的决策边界：
 ![enter description here][32]
-- 线性不可分的决策边界：   
+- 线性不可分的决策边界：
 ![enter description here][33]
 
 --------------------------
 
 ## 五、K-Means聚类算法
-- [全部代码](/K-Means/K-Menas.py)
+- [全部代码](K-Means/K-Menas.py)
 
 ### 1、聚类过程
 - 聚类属于无监督学习，不知道y的标记分为K类
@@ -821,32 +821,32 @@ def predict(Theta1,Theta2,X):
  - 第一步：簇分配，随机选`K`个点作为中心，计算到这`K`个点的距离，分为`K`个簇
  - 第二步：移动聚类中心：重新计算每个**簇**的中心，移动中心，重复以上步骤。
 - 如下图所示：
- - 随机分配的聚类中心  
+ - 随机分配的聚类中心
  ![enter description here][34]
- - 重新计算聚类中心，移动一次  
+ - 重新计算聚类中心，移动一次
  ![enter description here][35]
- - 最后`10`步之后的聚类中心  
+ - 最后`10`步之后的聚类中心
  ![enter description here][36]
 
 - 计算每条数据到哪个中心最近实现代码：
 ```
-# 找到每条数据距离哪个类中心最近    
+# 找到每条数据距离哪个类中心最近
 def findClosestCentroids(X,initial_centroids):
     m = X.shape[0]                  # 数据条数
     K = initial_centroids.shape[0]  # 类的总数
     dis = np.zeros((m,K))           # 存储计算每个点分别到K个类的距离
     idx = np.zeros((m,1))           # 要返回的每条数据属于哪个类
-    
+
     '''计算每个点到每个类中心的距离'''
     for i in range(m):
         for j in range(K):
             dis[i,j] = np.dot((X[i,:]-initial_centroids[j,:]).reshape(1,-1),(X[i,:]-initial_centroids[j,:]).reshape(-1,1))
-    
+
     '''返回dis每一行的最小值对应的列号，即为对应的类别
     - np.min(dis, axis=1)返回每一行的最小值
     - np.where(dis == np.min(dis, axis=1).reshape(-1,1)) 返回对应最小值的坐标
      - 注意：可能最小值对应的坐标有多个，where都会找出来，所以返回时返回前m个需要的即可（因为对于多个最小值，属于哪个类别都可以）
-    '''  
+    '''
     dummy,idx = np.where(dis == np.min(dis, axis=1).reshape(-1,1))
     return idx[0:dis.shape[0]]  # 注意截取一下
 ```
@@ -864,7 +864,7 @@ def computerCentroids(X,idx,K):
 ### 2、目标函数
 - 也叫做**失真代价函数**
 - ![J({c^{(1)}}, \cdots ,{c^{(m)}},{u_1}, \cdots ,{u_k}) = \frac{1}{m}\sum\limits_{i = 1}^m {||{x^{(i)}} - {u_{{c^{(i)}}}}|{|^2}} ](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=J%28%7Bc%5E%7B%281%29%7D%7D%2C%20%5Ccdots%20%2C%7Bc%5E%7B%28m%29%7D%7D%2C%7Bu_1%7D%2C%20%5Ccdots%20%2C%7Bu_k%7D%29%20%3D%20%5Cfrac%7B1%7D%7Bm%7D%5Csum%5Climits_%7Bi%20%3D%201%7D%5Em%20%7B%7C%7C%7Bx%5E%7B%28i%29%7D%7D%20-%20%7Bu_%7B%7Bc%5E%7B%28i%29%7D%7D%7D%7D%7C%7B%7C%5E2%7D%7D%20)
-- 最后我们想得到：  
+- 最后我们想得到：
 ![enter description here][37]
 - 其中![{c^{(i)}}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bc%5E%7B%28i%29%7D%7D)表示第`i`条数据距离哪个类中心最近，
 - 其中![{u_i}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%7Bu_i%7D)即为聚类的中心
@@ -879,7 +879,7 @@ def kMeansInitCentroids(X,K):
     m = X.shape[0]
     m_arr = np.arange(0,m)      # 生成0-m-1
     centroids = np.zeros((K,X.shape[1]))
-    np.random.shuffle(m_arr)    # 打乱m_arr顺序    
+    np.random.shuffle(m_arr)    # 打乱m_arr顺序
     rand_indices = m_arr[:K]    # 取前K个
     centroids = X[rand_indices,:]
     return centroids
@@ -904,7 +904,7 @@ def runKMeans(X,initial_centroids,max_iters,plot_process):
     centroids = initial_centroids   # 记录当前类中心
     previous_centroids = centroids  # 记录上一次类中心
     idx = np.zeros((m,1))           # 每条数据属于哪个类
-    
+
     for i in range(max_iters):      # 迭代次数
         print u'迭代计算次数：%d'%(i+1)
         idx = findClosestCentroids(X, centroids)
@@ -933,16 +933,16 @@ def runKMeans(X,initial_centroids,max_iters,plot_process):
 ```
 
 ### 7、运行结果
-- 二维数据类中心的移动  
+- 二维数据类中心的移动
 ![enter description here][39]
-- 图片压缩  
+- 图片压缩
 ![enter description here][40]
 
 
 ----------------------
 
 ## 六、PCA主成分分析（降维）
-- [全部代码](/PCA/PCA.py)
+- [全部代码](PCA/PCA.py)
 
 ### 1、用处
 - 数据压缩（Data Compression）,使程序运行更快
@@ -973,7 +973,7 @@ def runKMeans(X,initial_centroids,max_iters,plot_process):
         n = X.shape[1]
         mu = np.zeros((1,n));
         sigma = np.zeros((1,n))
-        
+
         mu = np.mean(X,axis=0)
         sigma = np.std(X,axis=0)
         for i in range(n):
@@ -1003,9 +1003,9 @@ def runKMeans(X,initial_centroids,max_iters,plot_process):
      # 映射数据
     def projectData(X_norm,U,K):
         Z = np.zeros((X_norm.shape[0],K))
-        
+
         U_reduce = U[:,0:K]          # 取前K个
-        Z = np.dot(X_norm,U_reduce) 
+        Z = np.dot(X_norm,U_reduce)
         return Z
  ```
 - 过程总结：
@@ -1021,7 +1021,7 @@ def runKMeans(X,initial_centroids,max_iters,plot_process):
  - ![$${X_{approx}} = {(U_{reduce}^{ - 1})^{ - 1}}Z = {U_{reduce}}Z$$](http://latex.codecogs.com/gif.latex?%5Cfn_cm%20%24%24%7BX_%7Bapprox%7D%7D%20%3D%20%7B%28U_%7Breduce%7D%5E%7B%20-%201%7D%29%5E%7B%20-%201%7D%7DZ%20%3D%20%7BU_%7Breduce%7D%7DZ%24%24)
  - 实现代码：
 ```
-    # 恢复数据 
+    # 恢复数据
     def recoverData(Z,U,K):
         X_rec = np.zeros((Z.shape[0],U.shape[0]))
         U_recude = U[:,0:K]
@@ -1037,7 +1037,7 @@ def runKMeans(X,initial_centroids,max_iters,plot_process):
  - 误差率一般取`1%，5%，10%`等
 - 如何实现
  - 若是一个个试的话代价太大
- - 之前`U,S,V = svd(Sigma)`,我们得到了`S`，这里误差率error ratio:    
+ - 之前`U,S,V = svd(Sigma)`,我们得到了`S`，这里误差率error ratio:
  ![$$error{\kern 1pt} \;ratio = 1 - {{\sum\limits_{i = 1}^k {{S_{ii}}} } \over {\sum\limits_{i = 1}^n {{S_{ii}}} }} \le threshold$$](http://latex.codecogs.com/gif.latex?%5Cfn_cm%20%24%24error%7B%5Ckern%201pt%7D%20%5C%3Bratio%20%3D%201%20-%20%7B%7B%5Csum%5Climits_%7Bi%20%3D%201%7D%5Ek%20%7B%7BS_%7Bii%7D%7D%7D%20%7D%20%5Cover%20%7B%5Csum%5Climits_%7Bi%20%3D%201%7D%5En%20%7B%7BS_%7Bii%7D%7D%7D%20%7D%7D%20%5Cle%20threshold%24%24)
  - 可以一点点增加`K`尝试。
 
@@ -1047,16 +1047,16 @@ def runKMeans(X,initial_centroids,max_iters,plot_process):
 
 ### 8、运行结果
 - 2维数据降为1维
- - 要投影的方向     
+ - 要投影的方向
 ![enter description here][44]
- - 2D降为1D及对应关系        
+ - 2D降为1D及对应关系
 ![enter description here][45]
 - 人脸数据降维
- - 原始数据         
+ - 原始数据
  ![enter description here][46]
- - 可视化部分`U`矩阵信息    
+ - 可视化部分`U`矩阵信息
  ![enter description here][47]
- - 恢复数据    
+ - 恢复数据
  ![enter description here][48]
 
 ### 9、[使用scikit-learn库中的PCA实现降维](/PCA/PCA.py_scikit-learn.py)
@@ -1088,7 +1088,7 @@ from sklearn.preprocessing import StandardScaler
 ```
 
 - 数据恢复
- - `model.components_`会得到降维使用的`U`矩阵 
+ - `model.components_`会得到降维使用的`U`矩阵
 ```
     '''数据恢复并作图'''
     Ureduce = model.components_     # 得到降维用的Ureduce
@@ -1101,9 +1101,9 @@ from sklearn.preprocessing import StandardScaler
 
 
 ## 七、异常检测 Anomaly Detection
-- [全部代码](/AnomalyDetection/AnomalyDetection.py)
+- [全部代码](AnomalyDetection/AnomalyDetection.py)
 
-### 1、高斯分布（正态分布）`Gaussian distribution` 
+### 1、高斯分布（正态分布）`Gaussian distribution`
 - 分布函数：![$$p(x) = {1 \over {\sqrt {2\pi } \sigma }}{e^{ - {{{{(x - u)}^2}} \over {2{\sigma ^2}}}}}$$](http://latex.codecogs.com/png.latex?%5Cfn_cm%20%24%24p%28x%29%20%3D%20%7B1%20%5Cover%20%7B%5Csqrt%20%7B2%5Cpi%20%7D%20%5Csigma%20%7D%7D%7Be%5E%7B%20-%20%7B%7B%7B%7B%28x%20-%20u%29%7D%5E2%7D%7D%20%5Cover%20%7B2%7B%5Csigma%20%5E2%7D%7D%7D%7D%7D%24%24)
  - 其中，`u`为数据的**均值**，`σ`为数据的**标准差**
  - `σ`越**小**，对应的图像越**尖**
@@ -1127,7 +1127,7 @@ def estimateGaussian(X):
     m,n = X.shape
     mu = np.zeros((n,1))
     sigma2 = np.zeros((n,1))
-    
+
     mu = np.mean(X, axis=0) # axis=0表示列，每列的均值
     sigma2 = np.var(X,axis=0) # 求每列的方差
     return mu,sigma2
@@ -1137,7 +1137,7 @@ def estimateGaussian(X):
 - 对**偏斜数据**的错误度量
  - 因为数据可能是非常**偏斜**的（就是`y=1`的个数非常少，(`y=1`表示异常)），所以可以使用`Precision/Recall`，计算`F1Score`(在**CV交叉验证集**上)
  - 例如：预测癌症，假设模型可以得到`99%`能够预测正确，`1%`的错误率，但是实际癌症的概率很小，只有`0.5%`，那么我们始终预测没有癌症y=0反而可以得到更小的错误率。使用`error rate`来评估就不科学了。
- - 如下图记录：    
+ - 如下图记录：
  ![enter description here][49]
  - ![$$\Pr ecision = {{TP} \over {TP + FP}}$$](http://latex.codecogs.com/png.latex?%5Cfn_cm%20%24%24%5CPr%20ecision%20%3D%20%7B%7BTP%7D%20%5Cover%20%7BTP%20&plus;%20FP%7D%7D%24%24) ，即：**正确预测正样本/所有预测正样本**
  - ![$${\mathop{\rm Re}\nolimits} {\rm{call}} = {{TP} \over {TP + FN}}$$](http://latex.codecogs.com/png.latex?%5Cfn_cm%20%24%24%7B%5Cmathop%7B%5Crm%20Re%7D%5Cnolimits%7D%20%7B%5Crm%7Bcall%7D%7D%20%3D%20%7B%7BTP%7D%20%5Cover%20%7BTP%20&plus;%20FN%7D%7D%24%24) ，即：**正确预测正样本/真实值为正样本**
@@ -1149,7 +1149,7 @@ def estimateGaussian(X):
  - 尝试多个`ε`值，使`F1Score`的值高
 - 实现代码
 ```
-# 选择最优的epsilon，即：使F1Score最大    
+# 选择最优的epsilon，即：使F1Score最大
 def selectThreshold(yval,pval):
     '''初始化所需变量'''
     bestEpsilon = 0.
@@ -1177,11 +1177,11 @@ def selectThreshold(yval,pval):
 
 ### 5、多元高斯分布
 - 单元高斯分布存在的问题
- - 如下图，红色的点为异常点，其他的都是正常点（比如CPU和memory的变化）   
+ - 如下图，红色的点为异常点，其他的都是正常点（比如CPU和memory的变化）
  ![enter description here][50]
- - x1对应的高斯分布如下：   
+ - x1对应的高斯分布如下：
  ![enter description here][51]
- - x2对应的高斯分布如下：   
+ - x2对应的高斯分布如下：
  ![enter description here][52]
  - 可以看出对应的p(x1)和p(x2)的值变化并不大，就不会认为异常
  - 因为我们认为feature之间是相互独立的，所以如上图是以**正圆**的方式扩展
@@ -1190,21 +1190,21 @@ def selectThreshold(yval,pval):
  - 其中参数：![$$\mu  \in {R^n},\Sigma  \in {R^{n \times {\rm{n}}}}$$](http://latex.codecogs.com/png.latex?%5Cfn_cm%20%24%24%5Cmu%20%5Cin%20%7BR%5En%7D%2C%5CSigma%20%5Cin%20%7BR%5E%7Bn%20%5Ctimes%20%7B%5Crm%7Bn%7D%7D%7D%7D%24%24),`Σ`为**协方差矩阵**
  - ![$$p(x) = {1 \over {{{(2\pi )}^{{n \over 2}}}|\Sigma {|^{{1 \over 2}}}}}{e^{ - {1 \over 2}{{(x - u)}^T}{\Sigma ^{ - 1}}(x - u)}}$$](http://latex.codecogs.com/png.latex?%5Cfn_cm%20%24%24p%28x%29%20%3D%20%7B1%20%5Cover%20%7B%7B%7B%282%5Cpi%20%29%7D%5E%7B%7Bn%20%5Cover%202%7D%7D%7D%7C%5CSigma%20%7B%7C%5E%7B%7B1%20%5Cover%202%7D%7D%7D%7D%7D%7Be%5E%7B%20-%20%7B1%20%5Cover%202%7D%7B%7B%28x%20-%20u%29%7D%5ET%7D%7B%5CSigma%20%5E%7B%20-%201%7D%7D%28x%20-%20u%29%7D%7D%24%24)
  - 同样，`|Σ|`越小，`p(x)`越尖
- - 例如：    
- ![enter description here][53]，  
+ - 例如：
+ ![enter description here][53]，
  表示x1,x2**正相关**，即x1越大，x2也就越大，如下图，也就可以将红色的异常点检查出了
- ![enter description here][54]      
- 若：   
-  ![enter description here][55]，   
+ ![enter description here][54]
+ 若：
+  ![enter description here][55]，
  表示x1,x2**负相关**
 - 实现代码：
 ```
-# 多元高斯分布函数    
+# 多元高斯分布函数
 def multivariateGaussian(X,mu,Sigma2):
     k = len(mu)
     if (Sigma2.shape[0]>1):
         Sigma2 = np.diag(Sigma2)
-    '''多元高斯分布函数'''    
+    '''多元高斯分布函数'''
     X = X-mu
     argu = (2*np.pi)**(-k/2)*np.linalg.det(Sigma2)**(-0.5)
     p = argu*np.exp(-0.5*np.sum(np.dot(X,np.linalg.inv(Sigma2))*X,axis=1))  # axis表示每行
@@ -1220,11 +1220,11 @@ def multivariateGaussian(X,mu,Sigma2):
  - `m>n`或`Σ`可逆时可以使用。（若不可逆，可能有冗余的x，因为线性相关，不可逆，或者就是m<n）
 
 ### 7、程序运行结果
-- 显示数据     
+- 显示数据
 ![enter description here][56]
-- 等高线      
+- 等高线
 ![enter description here][57]
-- 异常点标注   
+- 异常点标注
 ![enter description here][58]
 
 
