@@ -107,7 +107,8 @@ def computerCost(X,y,theta):
  - 将`△x`代入泰勒展开式中：`f(x+△x)=f(x)-α*[f'(x)]²+o(△x)`
  - 可以看出，`α`是取得很小的正数，`[f'(x)]²`也是正数，所以可以得出：`f(x+△x)<=f(x)`
  - 所以沿着**负梯度**放下，函数在减小，多维情况一样。
-- 实现代码
+- 实现代码：
+
 ```
 # 梯度下降算法
 def gradientDescent(X,y,theta,alpha,num_iters):
@@ -335,8 +336,8 @@ import numpy as np
 
 -------------
 
-## [逻辑回归_手写数字识别_OneVsAll](/LogisticRegression)
-- [全部代码](/LogisticRegression/LogisticRegression_OneVsAll.py)
+## [逻辑回归_手写数字识别_OneVsAll](LogisticRegression)
+- [全部代码](LogisticRegression/LogisticRegression_OneVsAll.py)
 
 ### 1、随机显示100个数字
 - 我没有使用scikit-learn中的数据集，像素是20*20px，彩色图如下
@@ -559,6 +560,7 @@ def nnCostFunction(nn_params,input_layer_size,hidden_layer_size,num_labels,X,y,L
 
 - 最后![\frac{{\partial J(\Theta )}}{{\partial \Theta _{ij}^{(l)}}} = D_{ij}^{(l)}](http://chart.apis.google.com/chart?cht=tx&chs=1x0&chf=bg,s,FFFFFF00&chco=000000&chl=%5Cfrac%7B%7B%5Cpartial%20J%28%5CTheta%20%29%7D%7D%7B%7B%5Cpartial%20%5CTheta%20_%7Bij%7D%5E%7B%28l%29%7D%7D%7D%20%3D%20D_%7Bij%7D%5E%7B%28l%29%7D)，即得到代价函数的梯度
 - 实现代码：
+
 ```
 # 梯度
 def nnGradient(nn_params,input_layer_size,hidden_layer_size,num_labels,X,y,Lambda):
